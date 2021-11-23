@@ -1,0 +1,83 @@
+#%RAML 1.0
+title: Accounts API
+
+types:
+  AccountType: !include /datatypes/AccountType.raml
+  Account: !include /datatypes/Account.raml
+
+/accounts:
+  get:
+    displayName: Get All Accounts
+    headers:
+      Requester-ID:
+        displayName: Requester ID
+        description: id of the person requesting the accounts information
+        type: string
+        required: true
+        default: R-ID-7777
+    queryParameters:
+      account_type:
+        type: AccountType
+        required: false
+      account_name:
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            items: Account
+            examples:
+              output: !include /examples/Accounts.raml
+  post:
+    displayName: Add Account
+    headers:
+      Requester-ID:
+        displayName: Requester ID
+        description: id of the person requesting the accounts information
+        type: string
+        required: true
+        default: R-ID-7777
+    body:
+      application/json:
+        type: array
+        items: Account
+        examples:
+          input: !include /examples/AccountsPost.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include /examples/ResponseAccountsCreated.json
+  /{ID}:
+    get:
+      displayName: Get Account by ID
+      headers:
+        Requester-ID:
+          displayName: Requester ID
+          description: id of the person requesting the accounts information
+          type: string
+          required: true  
+          default: R-ID-7777 
+      responses:
+        200:
+          body:
+            application/json:
+              type: Account
+              examples:
+                output: !include examples/Account.raml
+        404:
+          body:
+            application/json:
+              example: !include /examples/ResponseAccountNotFound.json
+    uriParameters:
+      ID:
+        displayName: Account ID
+        type: string
+        required: true
+        default: "4400"
+                
+          
+        
+
+      
